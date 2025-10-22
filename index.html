@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Convert Markdown to platform-specific formatted text for WhatsApp, Slack, Discord, and more">
+  <title>MDEverywhere - Markdown to Platform Converter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>MDEverywhere</h1>
+      <label for="platformSelector" class="visually-hidden">Select platform</label>
+      <select id="platformSelector" class="platform-selector" aria-label="Select target platform">
+        <option value="whatsapp">WhatsApp</option>
+        <option value="slack">Slack</option>
+        <option value="discord">Discord</option>
+        <option value="telegram">Telegram</option>
+        <option value="notion">Notion</option>
+        <option value="github">GitHub</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="plaintext">Plain Text</option>
+        <option value="html">HTML</option>
+      </select>
+    </header>
+
+    <main class="content" role="main">
+      <section class="column input-column" role="region" aria-label="Markdown input">
+        <div class="column-header">
+          <label for="markdownInput">Markdown Input</label>
+          <button id="clearBtn" class="clear-btn" aria-label="Clear input">Clear</button>
+        </div>
+        <textarea
+          id="markdownInput"
+          placeholder="# Hello World&#10;&#10;Paste your **markdown** here and see it convert in _real-time_!&#10;&#10;- Try different platforms&#10;- Use Cmd/Ctrl + K to change platform&#10;- Use Cmd/Ctrl + L to clear"
+          class="textarea input-textarea"
+          aria-label="Enter markdown text"
+          spellcheck="false"
+        ></textarea>
+        <div class="input-footer">
+          <span id="charCount" aria-live="polite">0 characters</span>
+        </div>
+      </section>
+
+      <section class="column output-column" role="region" aria-label="Formatted output">
+        <div class="column-header">
+          <label for="outputPreview">Formatted Output</label>
+        </div>
+        <div
+          id="outputPreview"
+          class="output-preview"
+          role="textbox"
+          aria-readonly="true"
+          aria-label="Converted text output"
+          tabindex="0"
+        ></div>
+        <button id="copyBtn" class="copy-btn" aria-label="Copy output to clipboard">Copy</button>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="shortcuts-hint">
+        <kbd>Cmd/Ctrl</kbd> + <kbd>K</kbd> Focus platform &nbsp;|&nbsp;
+        <kbd>Cmd/Ctrl</kbd> + <kbd>L</kbd> Clear &nbsp;|&nbsp;
+        <kbd>Cmd/Ctrl</kbd> + <kbd>1-9</kbd> Quick switch
+      </p>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+

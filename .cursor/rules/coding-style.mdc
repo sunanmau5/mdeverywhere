@@ -1,0 +1,36 @@
+---
+alwaysApply: true
+description: Coding style preferences for MDEverywhere project
+---
+
+# Coding Style Guidelines
+
+## Comments
+- Use JSDoc comments for all exported functions
+- Use lowercase for inline comments
+- Keep comments minimal - let the code speak for itself
+- Avoid aggressive commenting
+
+Example:
+```javascript
+/**
+ * @param {string} markdown
+ * @returns {string}
+ */
+export function convertToWhatsApp(markdown) {
+  // process escapes first
+  const { text, escapeMap } = processEscapes(markdown);
+  return result;
+}
+```
+
+## Code Preferences
+- Use factory pattern when managing multiple implementations
+- Prefer const over let when values don't change
+- Use arrow functions for callbacks
+- Use template literals for string interpolation
+- Use destructuring when appropriate
+
+## Package Manager
+- Always use `pnpm` for package management
+- Never suggest npm, yarn, or python commands for this project

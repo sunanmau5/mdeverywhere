@@ -1,0 +1,61 @@
+---
+alwaysApply: true
+description: MDEverywhere project architecture and design principles
+---
+
+# Project Architecture
+
+## Core Principles
+- **Zero dependencies**: Pure vanilla JavaScript, no external libraries
+- **ES6 modules**: Use import/export syntax
+- **No build tools**: Must work by opening [index.html](mdc:index.html) via local server
+- **Factory pattern**: Use for managing multiple implementations (see converters)
+- **Edge case graceful**: Invalid/malformed input → treat as plain text
+
+## File Structure
+```
+mdeverywhere/
+├── index.html              # Main HTML with semantic markup
+├── styles.css              # Responsive CSS Grid layout
+├── app.js                  # Core logic, state, factory
+├── markdown-parser.js      # Shared utilities for parsing
+└── converters/             # Platform-specific converters
+    ├── whatsapp.js
+    ├── slack.js
+    ├── discord.js
+    └── ...
+```
+
+## Key Files
+
+### [app.js](mdc:app.js)
+- State management
+- Event handlers with debouncing (300ms)
+- Converter factory pattern
+- LocalStorage persistence
+- Keyboard shortcuts
+
+### [markdown-parser.js](mdc:markdown-parser.js)
+- Shared utility functions
+- Escape character handling
+- Regex-based parsing
+- No HTML generation (except for html.js converter)
+
+### [converters/](mdc:converters/)
+- Each file exports one function
+- Platform-specific transformations
+- Registered in converterFactory in app.js
+
+## Design Decisions
+- **No Showdown.js**: Custom regex parser gives full control and 0KB overhead
+- **Text transformations**: Most platforms need string manipulation, not HTML
+- **Debounced input**: 300ms delay for performance
+- **LocalStorage**: Auto-save input and platform selection
+- **Accessibility first**: ARIA labels, keyboard nav, semantic HTML
+
+## When Adding Features
+1. Keep zero dependencies principle
+2. Add to appropriate file (don't create new files unnecessarily)
+3. Update factory if adding new converter
+4. Test edge cases (malformed syntax, empty input, unicode)
+5. Maintain accessibility (keyboard nav, ARIA labels)

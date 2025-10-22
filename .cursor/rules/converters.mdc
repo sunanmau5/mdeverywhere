@@ -1,0 +1,50 @@
+---
+globs: converters/*.js
+description: Guidelines for platform converter implementations
+---
+
+# Platform Converter Guidelines
+
+## Architecture
+All converter files follow the same pattern and are located in `converters/` directory.
+
+Each converter:
+- Exports a single function named `convertTo[Platform]`
+- Takes a markdown string as input
+- Returns a converted string as output
+- Uses [markdown-parser.js](mdc:markdown-parser.js) utilities
+
+## Converter Pattern
+```javascript
+import { processEscapes, restoreEscapes } from '../markdown-parser.js';
+
+/**
+ * @param {string} markdown
+ * @returns {string}
+ */
+export function convertToPlatform(markdown) {
+  const { text, escapeMap } = processEscapes(markdown);
+  let result = text;
+
+  // apply platform-specific transformations
+
+  result = restoreEscapes(result, escapeMap);
+  return result;
+}
+```
+
+## Edge Case Handling
+- Malformed syntax → Leave as-is (treat as plain text)
+- Unclosed delimiters → Don't auto-close, leave as literal
+- Escaped characters → Honor backslash escapes via processEscapes
+- Empty input → Return empty string
+- Unicode/emoji → Preserve as-is
+
+## Registry
+All converters must be registered in the factory in [app.js](mdc:app.js):
+```javascript
+const converterFactory = {
+  platform: convertToPlatform,
+  // ...
+};
+```

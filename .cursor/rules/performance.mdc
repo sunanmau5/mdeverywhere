@@ -1,0 +1,68 @@
+---
+description: Performance optimization guidelines
+---
+
+# Performance Guidelines
+
+## Performance Targets
+- **Conversion time**: <100ms for 5K characters
+- **Bundle size**: <50KB total for MVP (currently ~920 lines)
+- **Dependencies**: 0 external libraries
+- **Input debounce**: 300ms delay
+
+## Key Optimizations
+
+### Debouncing
+Input changes are debounced to prevent excessive re-renders:
+```javascript
+const handleInput = debounce((text) => {
+  // process input
+}, 300);
+```
+
+### Regex-Based Parsing
+- Chosen over HTML parsing libraries for text transformations
+- Faster and lighter than Showdown.js (0KB vs 75KB)
+- Full control over edge cases
+- See [markdown-parser.js](mdc:markdown-parser.js)
+
+### LocalStorage Strategy
+- Save on input change (debounced)
+- Save on platform change (immediate)
+- Load once on app initialization
+- Graceful error handling (try/catch)
+
+### Factory Pattern Benefits
+- O(1) converter lookup
+- No conditional chains
+- Easy to extend
+- See converterFactory in [app.js](mdc:app.js)
+
+## What NOT to Do
+- ❌ Don't add heavy libraries (markdown parsers, syntax highlighters)
+- ❌ Don't use framework overhead (React, Vue, etc.)
+- ❌ Don't make synchronous localStorage calls in tight loops
+- ❌ Don't parse HTML unless absolutely necessary
+- ❌ Don't create unnecessary DOM manipulations
+
+## What to Do
+- ✅ Use native browser APIs
+- ✅ Debounce user input events
+- ✅ Use regex for text transformations
+- ✅ Keep bundle size minimal
+- ✅ Test with large inputs (10K+ chars)
+
+## Testing Performance
+```javascript
+// Test conversion speed
+console.time('conversion');
+const result = converter(largeMarkdownText);
+console.timeEnd('conversion'); // Should be <100ms for 5K chars
+```
+
+## When Adding Features
+1. Consider bundle size impact
+2. Test with large inputs (10K+ characters)
+3. Profile if performance degrades
+4. Use debouncing for user input
+5. Prefer native APIs over libraries

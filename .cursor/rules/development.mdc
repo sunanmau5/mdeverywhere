@@ -1,0 +1,53 @@
+---
+description: Development workflow and testing guidelines
+---
+
+# Development Workflow
+
+## Running the Project
+```bash
+# Start development server
+pnpm start
+
+# Server runs on http://localhost:8000
+```
+
+## Package Manager
+- **Always use pnpm** - never npm, yarn, or Python
+- Package config in [package.json](mdc:package.json)
+- ES6 modules enabled with `"type": "module"`
+
+## Testing Strategy
+
+### Manual Testing
+Use [test-samples.md](mdc:test-samples.md) for testing conversions:
+- Basic formatting (bold, italic, code, strikethrough)
+- Edge cases (unclosed delimiters, escaped chars, nested formatting)
+- Unicode and emoji support
+- Platform-specific conversions
+- Very long text (10K+ chars) for performance
+
+### What to Test When Making Changes
+1. **Conversion accuracy** - All platforms produce correct output
+2. **Performance** - Debounce works, no lag with long input
+3. **Responsive design** - Mobile (<768px), tablet (768-1023px), desktop (1024px+)
+4. **Keyboard shortcuts** - All combinations work (Cmd/Ctrl + K, L, C, 1-9, Escape)
+5. **Edge cases** - Empty input, whitespace, malformed markdown, unicode
+6. **Accessibility** - Tab navigation, focus states, screen reader compatibility
+7. **LocalStorage** - Saves and restores input and platform selection
+
+### Browser Testing
+Test in latest versions of:
+- Chrome/Edge
+- Firefox
+- Safari
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## Code Changes Checklist
+- [ ] Follows coding style (JSDoc, lowercase inline comments)
+- [ ] No new dependencies added
+- [ ] Works in all target browsers
+- [ ] Maintains accessibility (ARIA, keyboard nav)
+- [ ] Edge cases handled gracefully
+- [ ] No linter errors
+- [ ] Performance tested with large input
