@@ -170,35 +170,39 @@ function fallbackCopy() {
 function setupKeyboardShortcuts() {
   document.addEventListener('keydown', (e) => {
     const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-    const modifier = isMac ? e.metaKey : e.ctrlKey;
+    const cmdCtrl = isMac ? e.metaKey : e.ctrlKey;
 
-    if (!modifier) {
-      if (e.key === 'Escape') {
-        document.activeElement.blur();
-      }
+    if (e.key === 'Escape') {
+      document.activeElement.blur();
       return;
     }
 
-    switch(e.key) {
-      case 'k':
-        e.preventDefault();
-        document.getElementById('platformSelector').focus();
-        break;
-      case 'l':
-        e.preventDefault();
-        clearInput();
-        break;
-      case 'c':
-        if (document.activeElement.id === 'outputPreview') {
-          e.preventDefault();
-          copyToClipboard();
-        }
-        break;
-      case '1': case '2': case '3': case '4': case '5':
-      case '6': case '7': case '8': case '9':
-        e.preventDefault();
-        switchPlatformByNumber(parseInt(e.key) - 1);
-        break;
+    // alt/option + p: focus platform selector
+    if (e.altKey && e.key === 'p') {
+      e.preventDefault();
+      document.getElementById('platformSelector').focus();
+      return;
+    }
+
+    // alt/option + c: clear input
+    if (e.altKey && e.key === 'c') {
+      e.preventDefault();
+      clearInput();
+      return;
+    }
+
+    // alt/option + 1-9: quick platform switch
+    if (e.altKey && e.key >= '1' && e.key <= '9') {
+      e.preventDefault();
+      switchPlatformByNumber(parseInt(e.key) - 1);
+      return;
+    }
+
+    // cmd/ctrl + enter: copy output
+    if (cmdCtrl && e.key === 'Enter') {
+      e.preventDefault();
+      copyToClipboard();
+      return;
     }
   });
 }
