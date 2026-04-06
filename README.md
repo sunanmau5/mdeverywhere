@@ -18,6 +18,8 @@ pnpm dev
 
 Open `http://localhost:8000/demo/`.
 
+On GitHub Pages, the demo is served from `/demo/`.
+
 ## Package Usage
 
 ```js

@@ -42,8 +42,8 @@ jobs:
 
       - name: Prepare Pages artifact
         run: |
-          mkdir -p .pages-dist/src/converters
-          cp demo/index.html demo/app.js demo/styles.css .pages-dist/
+          mkdir -p .pages-dist/demo .pages-dist/src/converters
+          cp demo/index.html demo/app.js demo/styles.css .pages-dist/demo/
           cp src/index.js src/browser-app.js src/markdown-parser.js .pages-dist/src/
           cp src/converters/*.js .pages-dist/src/converters/
 
