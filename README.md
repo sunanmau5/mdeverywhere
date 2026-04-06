@@ -64,12 +64,6 @@ pnpm format
 - LocalStorage persistence of the latest input and selected platform
 - Clipboard copy with a DOM selection fallback when `navigator.clipboard` is unavailable
 
-## Release Flow
-
-- Pushes and pull requests run CI checks.
-- Pushes to `main` deploy the static demo to GitHub Pages.
-- Version tags like `v0.1.0` publish the npm package after verification passes.
-
 ## Manual Test Samples
 
 The repository includes `demo/test-samples.md` for quick manual spot checks in the demo app, but the primary quality gate is the automated test suite.
