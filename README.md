@@ -60,7 +60,7 @@ pnpm format
 ## Browser App Behavior
 
 - Real-time conversion with a 300ms debounce
-- Keyboard shortcuts: `Ctrl+Shift+P` focus platform, `Ctrl+Shift+Backspace` clear, `Alt+1..9` quick switch, `Cmd/Ctrl+Enter` copy
+- Keyboard shortcuts: `S` focus platform, `X` clear, `[` and `]` switch platform, `Cmd/Ctrl+Enter` copy
 - LocalStorage persistence of the latest input and selected platform
 - Clipboard copy with a DOM selection fallback when `navigator.clipboard` is unavailable
 

@@ -128,14 +128,16 @@ describe("browser app", () => {
     expect(document.getElementById("markdownInput").value).toBe("");
     expect(document.getElementById("outputPreview").textContent).toBe("");
 
+    document.getElementById("markdownInput").focus();
     app.handleInput("**Bold**");
     document.dispatchEvent(
-      new KeyboardEvent("keydown", {
-        ctrlKey: true,
-        shiftKey: true,
-        key: "Backspace",
-        bubbles: true,
-      }),
+      new KeyboardEvent("keydown", { key: "x", bubbles: true }),
+    );
+    expect(app.state.inputText).toBe("**Bold**");
+
+    document.activeElement.blur();
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "x", bubbles: true }),
     );
     expect(app.state.inputText).toBe("");
   });
@@ -145,12 +147,7 @@ describe("browser app", () => {
     app.init();
 
     document.dispatchEvent(
-      new KeyboardEvent("keydown", {
-        ctrlKey: true,
-        shiftKey: true,
-        key: "P",
-        bubbles: true,
-      }),
+      new KeyboardEvent("keydown", { key: "s", bubbles: true }),
     );
     expect(document.activeElement).toBe(
       document.getElementById("platformSelector"),
@@ -158,15 +155,15 @@ describe("browser app", () => {
 
     app.handleInput("**Bold**");
     document.dispatchEvent(
-      new KeyboardEvent("keydown", {
-        altKey: true,
-        key: "@",
-        code: "Digit2",
-        bubbles: true,
-      }),
+      new KeyboardEvent("keydown", { key: "]", bubbles: true }),
     );
     expect(app.state.currentPlatform).toBe("slack");
     expect(document.getElementById("outputPreview").textContent).toBe("*Bold*");
+
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "[", bubbles: true }),
+    );
+    expect(app.state.currentPlatform).toBe("whatsapp");
   });
 
   test("copies with navigator clipboard on click", async () => {

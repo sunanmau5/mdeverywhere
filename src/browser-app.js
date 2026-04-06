@@ -313,9 +313,18 @@ export function createMarkdownApp(options = {}) {
   function createKeyboardHandler() {
     return function onKeydown(event) {
       const key = event.key.toLowerCase();
-      const code = event.code ?? "";
       const isMac = nav?.platform?.toUpperCase().includes("MAC");
       const cmdCtrl = isMac ? event.metaKey : event.ctrlKey;
+      const target = /** @type {EventTarget | null} */ (event.target);
+      const activeElement = doc.activeElement;
+      const isEditable =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        (target instanceof HTMLElement && target.isContentEditable) ||
+        activeElement instanceof HTMLInputElement ||
+        activeElement instanceof HTMLTextAreaElement ||
+        (activeElement instanceof HTMLElement &&
+          activeElement.isContentEditable);
 
       if (key === "escape") {
         if (doc.activeElement instanceof HTMLElement) {
@@ -324,32 +333,43 @@ export function createMarkdownApp(options = {}) {
         return;
       }
 
-      if (event.ctrlKey && event.shiftKey && key === "p") {
-        event.preventDefault();
-        getElement("platformSelector").focus();
-        return;
-      }
-
       if (
-        event.ctrlKey &&
-        event.shiftKey &&
-        (key === "backspace" || key === "delete")
+        !isEditable &&
+        !event.altKey &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        !event.shiftKey
       ) {
-        event.preventDefault();
-        clearInput();
-        return;
-      }
+        if (key === "s") {
+          event.preventDefault();
+          getElement("platformSelector").focus();
+          return;
+        }
 
-      if (event.altKey && /^Digit[1-9]$/.test(code)) {
-        event.preventDefault();
-        switchPlatformByNumber(Number.parseInt(code.slice(5), 10) - 1);
-        return;
-      }
+        if (key === "x") {
+          event.preventDefault();
+          clearInput();
+          return;
+        }
 
-      if (event.altKey && key >= "1" && key <= "9") {
-        event.preventDefault();
-        switchPlatformByNumber(Number.parseInt(key, 10) - 1);
-        return;
+        if (key === "[") {
+          event.preventDefault();
+          switchPlatformByNumber(
+            Math.max(0, SUPPORTED_PLATFORMS.indexOf(state.currentPlatform) - 1),
+          );
+          return;
+        }
+
+        if (key === "]") {
+          event.preventDefault();
+          switchPlatformByNumber(
+            Math.min(
+              SUPPORTED_PLATFORMS.length - 1,
+              SUPPORTED_PLATFORMS.indexOf(state.currentPlatform) + 1,
+            ),
+          );
+          return;
+        }
       }
 
       if (cmdCtrl && key === "enter") {
