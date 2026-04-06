@@ -1,0 +1,65 @@
+name: Deploy Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          cache: "pnpm"
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run checks
+        run: pnpm check
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p .pages-dist/src/converters
+          cp demo/index.html demo/app.js demo/styles.css .pages-dist/
+          cp src/index.js src/browser-app.js src/markdown-parser.js .pages-dist/src/
+          cp src/converters/*.js .pages-dist/src/converters/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .pages-dist
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
