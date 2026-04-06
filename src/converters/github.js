@@ -1,4 +1,4 @@
-import { processEscapes, restoreEscapes } from '../markdown-parser.js';
+import { processEscapes, restoreEscapes } from "../markdown-parser.js";
 
 /**
  * @param {string} markdown
@@ -9,4 +9,3 @@ export function convertToGitHub(markdown) {
   const result = restoreEscapes(text, escapeMap);
   return result;
 }
-

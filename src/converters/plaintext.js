@@ -1,4 +1,4 @@
-import { stripMarkdown } from '../markdown-parser.js';
+import { stripMarkdown } from "../markdown-parser.js";
 
 /**
  * @param {string} markdown
@@ -7,4 +7,3 @@ import { stripMarkdown } from '../markdown-parser.js';
 export function convertToPlainText(markdown) {
   return stripMarkdown(markdown);
 }
-

@@ -29,11 +29,13 @@
       <section class="column input-column" role="region" aria-label="Markdown input">
         <div class="column-header">
           <label for="markdownInput">Markdown Input</label>
-          <button id="clearBtn" class="clear-btn" aria-label="Clear input">Clear</button>
+          <button type="button" id="clearBtn" class="clear-btn" aria-label="Clear input">
+            Clear
+          </button>
         </div>
         <textarea
           id="markdownInput"
-          placeholder="# Hello World&#10;&#10;Paste your **markdown** here and see it convert in _real-time_!&#10;&#10;- Try different platforms&#10;- Use Alt + P to change platform&#10;- Use Alt + C to clear"
+          placeholder="# Hello World&#10;&#10;Paste your **markdown** here and see it convert in _real-time_!&#10;&#10;- Try different platforms&#10;- Use Ctrl + Shift + P to focus platform&#10;- Use Ctrl + Shift + Backspace to clear"
           class="textarea input-textarea"
           aria-label="Enter markdown text"
           spellcheck="false"
@@ -55,14 +57,21 @@
           aria-label="Converted text output"
           tabindex="0"
         ></div>
-        <button id="copyBtn" class="copy-btn" aria-label="Copy output to clipboard">Copy</button>
+        <button
+          type="button"
+          id="copyBtn"
+          class="copy-btn"
+          aria-label="Copy output to clipboard"
+        >
+          Copy
+        </button>
       </section>
     </main>
 
     <footer class="footer">
       <p class="shortcuts-hint">
-        <kbd>Alt</kbd> + <kbd>P</kbd> Focus platform &nbsp;|&nbsp;
-        <kbd>Alt</kbd> + <kbd>C</kbd> Clear &nbsp;|&nbsp;
+        <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> Focus platform &nbsp;|&nbsp;
+        <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Backspace</kbd> Clear &nbsp;|&nbsp;
         <kbd>Alt</kbd> + <kbd>1-9</kbd> Quick switch &nbsp;|&nbsp;
         <kbd>Cmd/Ctrl</kbd> + <kbd>Enter</kbd> Copy
       </p>
@@ -72,4 +81,3 @@
   <script type="module" src="app.js"></script>
 </body>
 </html>
-
